@@ -4,7 +4,10 @@ import tw from "twin.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons/faCalendarAlt";
 import {Marginer} from "../marginer";
-
+import Calendar from "react-calendar";
+import './../../constants/calendarStyle.css';
+import {AnyAction} from "@reduxjs/toolkit";
+import {useReducer} from "react";
 
 const BookCardContainer = styled.div`
   min-height: 4.2em;
@@ -22,12 +25,13 @@ const BookCardContainer = styled.div`
 
 const ItemContainer = styled.div`
   ${tw`
-  flex
-  items-center
+    flex
+    items-center
+    relative
   `}
 `
 
-const Icon = styled.span` 
+const Icon = styled.span`
   ${tw`
     text-red-500
     fill-current
@@ -43,6 +47,7 @@ const Name = styled.span`
     text-gray-700
     text-xs
     md:text-sm
+    cursor-pointer
   `}
 `
 
@@ -55,8 +60,90 @@ const Separator = styled.div`
     md:mx-5
   `}
 `
+const DateCalendar = styled(Calendar)`
+  position: absolute;
+  top: 3.5em;
+  left: 0;
+  max-width: none;
+  & .react-calendar__tile--active {
+    ${tw`bg-blue-700`}
+  }
+  & .react-calendar__tile--now {
+    ${tw`bg-yellow-100`}
+  }
+`
+
+
+type InitialStateType = {
+    pickUpDateOpen: boolean
+    returnDateOpen: boolean
+    pickUpDate: Date
+    returnDate: Date
+}
+
+enum bookCardActions {
+    TOGGLE_PICK_UP_DATE_OPEN = 'togglePickUpDateOpen',
+    TOGGLE_RETURN_DATE_OPEN = 'toggleReturnDateOpen',
+    CHANGE_PICK_UP_DATE = 'changePickUpDate',
+    CHANGE_RETURN_DATE = 'changeReturnDate',
+}
+
+
+const bookCardReducer = (state: InitialStateType, action: AnyAction): InitialStateType => {
+    switch (action.type) {
+        case bookCardActions.TOGGLE_PICK_UP_DATE_OPEN:
+            return {...state, pickUpDateOpen: !state.pickUpDateOpen, returnDateOpen: false}
+        case bookCardActions.TOGGLE_RETURN_DATE_OPEN:
+            return {...state, returnDateOpen: !state.returnDateOpen, pickUpDateOpen: false}
+        case bookCardActions.CHANGE_PICK_UP_DATE:
+            return {...state, pickUpDate: action.payload.date, pickUpDateOpen: false}
+        case bookCardActions.CHANGE_RETURN_DATE:
+            return {...state, returnDate: action.payload.date, returnDateOpen: false}
+        default:
+            throw new Error()
+    }
+}
+
+
+const togglePickUpDateOpen = () => ({
+    type: bookCardActions.TOGGLE_PICK_UP_DATE_OPEN
+})
+
+const toggleReturnDateOpen = () => ({
+    type: bookCardActions.TOGGLE_RETURN_DATE_OPEN
+})
+
+const changeReturnDate = (newDate: Date) => ({
+    type: bookCardActions.CHANGE_RETURN_DATE,
+    payload: {date: newDate}
+})
+
+const changePickUpDate = (newDate: Date) => ({
+    type: bookCardActions.CHANGE_PICK_UP_DATE,
+    payload: {date: newDate}
+})
 
 const BookCard = () => {
+
+    const [state, dispatch] = useReducer(bookCardReducer, {
+        pickUpDateOpen: false,
+        returnDateOpen: false,
+        pickUpDate: new Date(),
+        returnDate: new Date()
+    })
+
+    const {
+        pickUpDateOpen,
+        returnDate,
+        pickUpDate,
+        returnDateOpen
+    } = state
+
+    const togglePickUpDateCalendar = () =>  dispatch(togglePickUpDateOpen())
+    const toggleReturnDateCalendar = () =>  dispatch(toggleReturnDateOpen())
+    const changeCalendarPickUpDate = (date: Date) =>  dispatch(changePickUpDate(date))
+    const changeCalendarReturnDate = (date: Date) =>  dispatch(changeReturnDate(date))
+
 
     return (
         <BookCardContainer>
@@ -64,14 +151,16 @@ const BookCard = () => {
                 <Icon>
                     <FontAwesomeIcon icon={faCalendarAlt}/>
                 </Icon>
-                <Name>Pick Up Date</Name>
+                <Name onClick={togglePickUpDateCalendar}>Pick Up Date</Name>
+                {pickUpDateOpen && <DateCalendar value={pickUpDate} onChange={changeCalendarPickUpDate}/>}
             </ItemContainer>
             <Separator/>
             <ItemContainer>
                 <Icon>
                     <FontAwesomeIcon icon={faCalendarAlt}/>
                 </Icon>
-                <Name>Return Date</Name>
+                <Name onClick={toggleReturnDateCalendar}>Return Date</Name>
+                {returnDateOpen && <DateCalendar value={returnDate} onChange={changeCalendarReturnDate}/>}
             </ItemContainer>
             <Marginer margin={'10px'} direction={'horizontal'}/>
             <Button theme={'outlined'} text={'Book Your Ride'}/>
