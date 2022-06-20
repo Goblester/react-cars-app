@@ -1,5 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
+import NavBar from "../../components/navbar";
 
 
 const PageContainer = tw.div`
@@ -14,7 +15,11 @@ const PageContainer = tw.div`
 
 const HomePage: React.FC = () => {
 
-    return <PageContainer>hello world!!!!!!</PageContainer>
+    return (
+        <PageContainer>
+            <NavBar/>
+        </PageContainer>
+    )
 }
 
 export default HomePage

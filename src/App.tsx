@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import HomePage from "./app/containers/HomePage";
 import tw from "twin.macro";
-import NavBar from "./app/components/navbar";
 
 const AppContainer = tw.div`
   flex
@@ -16,7 +15,6 @@ const AppContainer = tw.div`
 function App() {
     return (
         <AppContainer>
-            <NavBar/>
             <HomePage/>
         </AppContainer>
     );
