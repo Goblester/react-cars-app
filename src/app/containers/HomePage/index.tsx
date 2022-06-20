@@ -1,6 +1,7 @@
 import React from "react";
 import tw from "twin.macro";
 import NavBar from "../../components/navbar";
+import TopSection from "./topSection";
 
 
 const PageContainer = tw.div`
@@ -18,6 +19,7 @@ const HomePage: React.FC = () => {
     return (
         <PageContainer>
             <NavBar/>
+            <TopSection/>
         </PageContainer>
     )
 }
