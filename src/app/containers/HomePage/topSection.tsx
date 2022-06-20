@@ -152,8 +152,8 @@ const TopSection: React.FC = () => {
             <Description>Always choose the best car from our stores or order it remotely
                 at the best price for you and get the best quality cars for as long as you like</Description>
             <ButtonsContainer>
-                <Button theme={'filled'} text={'Book Your Ride'}/>
-                <Button text={'Sell Your Car'}/>
+                <Button theme={'outlined'}  text={'Book Your Ride'}/>
+                <Button theme={'filled'} text={'Sell Your Car'}/>
             </ButtonsContainer>
         </LeftContainer>
         <RightContainer>
