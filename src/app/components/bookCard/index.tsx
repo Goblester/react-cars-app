@@ -4,10 +4,14 @@ import tw from "twin.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons/faCalendarAlt";
 import {Marginer} from "../marginer";
-import Calendar from "react-calendar";
 import './../../constants/calendarStyle.css';
+import Calendar from "react-calendar";
 import {AnyAction} from "@reduxjs/toolkit";
 import {useReducer} from "react";
+import {faCaretDown} from "@fortawesome/free-solid-svg-icons/faCaretDown";
+import {faCaretUp} from "@fortawesome/free-solid-svg-icons/faCaretUp";
+import {SCREENS} from "../../constants/screens";
+import {css} from "@emotion/react";
 
 const BookCardContainer = styled.div`
   min-height: 4.2em;
@@ -60,16 +64,38 @@ const Separator = styled.div`
     md:mx-5
   `}
 `
-const DateCalendar = styled(Calendar)`
+const SmallIcon = styled.div`
+  ${tw`
+    text-xs
+    md:text-base
+    fill-current
+    ml-1
+    text-gray-500
+    cursor-pointer
+  `}
+`
+
+const DateCalendar = styled(Calendar)<{ offset?: boolean }>`
   position: absolute;
-  top: 3.5em;
+  top: 3em;
   left: 0;
-  max-width: none;
+
   & .react-calendar__tile--active {
     ${tw`bg-blue-700`}
   }
+
   & .react-calendar__tile--now {
     ${tw`bg-yellow-100`}
+  }
+  max-width: none;
+  
+  ${({offset}) => offset && css`
+    left: -6em;
+  `};
+
+  @media (min-width: ${SCREENS.md}) {
+    top: 3.5em;
+    left: 0;
   }
 `
 
@@ -139,10 +165,10 @@ const BookCard = () => {
         returnDateOpen
     } = state
 
-    const togglePickUpDateCalendar = () =>  dispatch(togglePickUpDateOpen())
-    const toggleReturnDateCalendar = () =>  dispatch(toggleReturnDateOpen())
-    const changeCalendarPickUpDate = (date: Date) =>  dispatch(changePickUpDate(date))
-    const changeCalendarReturnDate = (date: Date) =>  dispatch(changeReturnDate(date))
+    const togglePickUpDateCalendar = () => dispatch(togglePickUpDateOpen())
+    const toggleReturnDateCalendar = () => dispatch(toggleReturnDateOpen())
+    const changeCalendarPickUpDate = (date: Date) => dispatch(changePickUpDate(date))
+    const changeCalendarReturnDate = (date: Date) => dispatch(changeReturnDate(date))
 
 
     return (
@@ -152,7 +178,11 @@ const BookCard = () => {
                     <FontAwesomeIcon icon={faCalendarAlt}/>
                 </Icon>
                 <Name onClick={togglePickUpDateCalendar}>Pick Up Date</Name>
-                {pickUpDateOpen && <DateCalendar value={pickUpDate} onChange={changeCalendarPickUpDate}/>}
+                <SmallIcon>
+                    <FontAwesomeIcon icon={pickUpDateOpen ? faCaretUp : faCaretDown}/>
+                </SmallIcon>
+                {pickUpDateOpen && <DateCalendar value={pickUpDate}
+                                                 onChange={changeCalendarPickUpDate}/>}
             </ItemContainer>
             <Separator/>
             <ItemContainer>
@@ -160,7 +190,12 @@ const BookCard = () => {
                     <FontAwesomeIcon icon={faCalendarAlt}/>
                 </Icon>
                 <Name onClick={toggleReturnDateCalendar}>Return Date</Name>
-                {returnDateOpen && <DateCalendar value={returnDate} onChange={changeCalendarReturnDate}/>}
+                <SmallIcon>
+                    <FontAwesomeIcon icon={returnDateOpen ? faCaretUp : faCaretDown}/>
+                </SmallIcon>
+                {returnDateOpen && <DateCalendar offset={true}
+                                                 value={returnDate}
+                                                 onChange={changeCalendarReturnDate}/>}
             </ItemContainer>
             <Marginer margin={'10px'} direction={'horizontal'}/>
             <Button theme={'outlined'} text={'Book Your Ride'}/>
