@@ -4,6 +4,7 @@ import tw from "twin.macro";
 import BlobImg from './../../../assets/images/blob.svg';
 import CarImg from './../../../assets/images/mclaren-orange-big.png';
 import {SCREENS} from "../../constants/screens";
+import Button from "../../components/button/Button";
 
 const TopSectionContainer = styled.div`
   min-height: 400px;
@@ -135,6 +136,13 @@ const StandaloneCar = styled.div`
   }
 `
 
+const ButtonsContainer = styled.div`
+  ${tw`
+    flex
+    flex-wrap
+    mt-4
+  `}
+`
 
 const TopSection: React.FC = () => {
 
@@ -143,6 +151,10 @@ const TopSection: React.FC = () => {
             <Slogan>Rent The Best Quality Cars With Us</Slogan>
             <Description>Always choose the best car from our stores or order it remotely
                 at the best price for you and get the best quality cars for as long as you like</Description>
+            <ButtonsContainer>
+                <Button theme={'filled'} text={'Book Your Ride'}/>
+                <Button text={'Sell Your Car'}/>
+            </ButtonsContainer>
         </LeftContainer>
         <RightContainer>
             <BlobContainer><img src={BlobImg} alt={''}/></BlobContainer>
