@@ -2,6 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import NavBar from "../../components/navbar";
 import TopSection from "./topSection";
+import BookCard from "../../components/bookCard";
 
 
 const PageContainer = tw.div`
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
         <PageContainer>
             <NavBar/>
             <TopSection/>
+            <BookCard/>
         </PageContainer>
     )
 }
