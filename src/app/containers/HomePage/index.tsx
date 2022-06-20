@@ -3,6 +3,7 @@ import tw from "twin.macro";
 import NavBar from "../../components/navbar";
 import TopSection from "./topSection";
 import BookCard from "../../components/bookCard";
+import {Marginer} from "../../components/marginer";
 
 
 const PageContainer = tw.div`
@@ -21,6 +22,7 @@ const HomePage: React.FC = () => {
         <PageContainer>
             <NavBar/>
             <TopSection/>
+            <Marginer margin={'4em'} direction={'vertical'}/>
             <BookCard/>
         </PageContainer>
     )
