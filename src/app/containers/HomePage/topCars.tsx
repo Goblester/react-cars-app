@@ -30,8 +30,11 @@ const Title = styled.h2`
 
 const CarsContainer = styled.div`
   ${tw`
+    mt-10
     flex
     flex-wrap
+    items-center
+    justify-center
   `}
 `
 

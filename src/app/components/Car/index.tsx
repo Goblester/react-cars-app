@@ -9,32 +9,117 @@ import {faFillDrip} from "@fortawesome/free-solid-svg-icons/faFillDrip";
 import Button from "../button/Button";
 
 const CarContainer = styled.div`
-  box-shadow: 0 1.3px 12px -3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1.3px 17px -2px rgba(0, 0, 0, 0.4);
   min-width: 22em;
   max-width: 22em;
-  min-height: 32em;
-  max-height: 32em;
+  min-height: 30em;
   ${tw`
+    relative
     flex
     flex-col
+    p-3
+    m-1
+    sm:m-3
+    md:m-6
+    rounded-md
+    justify-between
+    items-center
+    bg-white
+    mb-4
+    md:mb-0
     `}
 `
 
-const ThumbnailContainer = styled.div`
-  height: 100%;
-  width: auto;
-  
+const CarThumbnailContainer = styled.div`
+  width: 100%;
+  min-height: 16em;
+
+  ${tw`
+    flex
+    items-center
+  `}
   & img {
     height: 100%;
     width: 100%;
   }
 `
 
-const PricesLine = styled.div`
+const CarName = styled.h5`
+  ${tw`
+    font-bold
+    text-black
+    text-base
+    md:text-lg
+  `}
 `
 
+const PricesLine = styled.div`
+  ${tw`
+    mt-4
+    flex
+    text-sm
+    md:text-base
+    w-full
+  `}
+`
+const DailyPrice = styled.div`
+  ${tw`
+    inline-flex
+    text-red-500
+    mr-6
+  `}
+`
+
+const Separator = styled.div`
+  ${tw`
+    border-b-2
+    text-gray-500
+    w-full
+  `}
+`
+
+const PriceAmount = styled.span`
+  ${tw`font-bold`}
+`
+
+const MonthlyPrice = styled.div`
+  ${tw`
+    inline-flex
+    text-gray-500
+  `}
+`
+
+
 const CarDetailsContainer = styled.div`
-  
+  ${tw`
+    flex
+    justify-between
+    w-full
+  `}
+`
+
+const CarDetail = styled.div`
+  ${tw`
+    inline-flex
+    text-sm
+    md:text-base
+    text-gray-500
+  `}
+`
+
+const SmallIcon = styled.span`
+  ${tw`mr-2`}
+`
+
+const SmallText = styled.span`
+
+`
+
+const RentButton = styled(Button)`
+  ${tw`
+    w-full
+    mt-4
+  `}
 `
 
 interface CarProps extends ICar {
@@ -55,29 +140,36 @@ const Car: React.FC<CarProps> = (props) => {
 
     return (
         <CarContainer>
-            <ThumbnailContainer>
+            <CarThumbnailContainer>
                 <img src={thumbnailSrc} alt={''}/>
-            </ThumbnailContainer>
-            <h5>{name}</h5>
+            </CarThumbnailContainer>
+            <CarName>{name}</CarName>
             <PricesLine>
-                <span>{dailyPrice}</span>
-                <span>{monthlyPrice}</span>
+                <DailyPrice><PriceAmount>${dailyPrice}</PriceAmount>/daily</DailyPrice>
+                <MonthlyPrice><PriceAmount>${monthlyPrice}</PriceAmount>/monthly</MonthlyPrice>
             </PricesLine>
+            <Separator/>
             <CarDetailsContainer>
-                <div>
-                    <FontAwesomeIcon icon={faTachometerAlt}/>
-                    <span>{mileage}</span>
-                </div>
-                <div>
-                    <FontAwesomeIcon icon={faEllipsisH}/>
-                    <span>{gearType}</span>
-                </div>
-                <div>
-                    <FontAwesomeIcon icon={faFillDrip}/>
-                    <span>{gas}</span>
-                </div>
+                <CarDetail>
+                    <SmallIcon>
+                        <FontAwesomeIcon icon={faTachometerAlt}/>
+                    </SmallIcon>
+                    <SmallText>{mileage}</SmallText>
+                </CarDetail>
+                <CarDetail>
+                    <SmallIcon>
+                        <FontAwesomeIcon icon={faEllipsisH}/>
+                    </SmallIcon>
+                    <SmallText>{gearType}</SmallText>
+                </CarDetail>
+                <CarDetail>
+                    <SmallIcon>
+                        <FontAwesomeIcon icon={faFillDrip}/>
+                    </SmallIcon>
+                    <SmallText>{gas}</SmallText>
+                </CarDetail>
             </CarDetailsContainer>
-            <Button text={'Rent Now'}/>
+            <RentButton text={'Rent Now'}/>
         </CarContainer>
     )
 }
