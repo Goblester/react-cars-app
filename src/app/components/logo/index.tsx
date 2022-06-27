@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import tw from "twin.macro";
 import CarsImageLogo from "../../../assets/images/car-logo.png"
+import DarkCarsImageLogo from "../../../assets/images/car-logo-dark.png"
 
 const LogoContainer = styled.div`
   ${tw`
@@ -9,6 +10,7 @@ const LogoContainer = styled.div`
     flex-row
     items-center
   `}
+  
 `
 
 const Image = styled.div`
@@ -23,24 +25,32 @@ const Image = styled.div`
   }
 `
 
-const LogoText = styled.text`
+const LogoText = styled.text<{color: ColorType}>`
   ${tw`
     text-xl 
     md:text-2xl 
     font-bold
-    text-black
     m-1
-  `}
+  `} 
+  ${({color}) => color === 'dark' ? tw`text-black` : tw`text-white`};
 `
 
-const Logo: React.FC = () => {
+type ColorType = 'dark' | 'light'
 
+interface LogoProps {
+    color?: ColorType
+    logoColor?: ColorType
+}
+
+const Logo: React.FC<LogoProps> = (props) => {
+
+    const {color, logoColor} = props
 
     return <LogoContainer>
         <Image>
-            <img src={CarsImageLogo} alt={''}/>
+            <img src={logoColor === 'dark' ? DarkCarsImageLogo : CarsImageLogo} alt={''}/>
         </Image>
-        <LogoText>YourCar</LogoText>
+        <LogoText color={color || 'dark'}>YourCar</LogoText>
     </LogoContainer>
 }
 
