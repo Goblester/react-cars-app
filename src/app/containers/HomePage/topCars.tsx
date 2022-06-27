@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import {ICar} from "../../../typings/car";
 import CarImage from "../../../assets/images/mclaren-orange.png";
 import Car2Image from "../../../assets/images/jeep.png";
-import Car from "../../components/Car";
+import Car from "../../components/car";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {Pagination} from 'swiper';
 
