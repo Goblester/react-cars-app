@@ -47,14 +47,15 @@ const OutlinedButton = styled(BaseButton)`
 interface IButtonProps {
     theme?: 'filled' | 'outlined'
     text: string
+    className?: string
 }
 
 
 const Button: React.FC<IButtonProps> = (props) => {
-    const {theme, text} = props
+    const {theme, text, className} = props
 
-    if (theme === 'filled') return <FilledButton>{text}</FilledButton>
-    else return <OutlinedButton>{text}</OutlinedButton>
+    if (theme === 'filled') return <FilledButton className={className}>{text}</FilledButton>
+    else return <OutlinedButton className={className}>{text}</OutlinedButton>
 }
 
 export default Button
