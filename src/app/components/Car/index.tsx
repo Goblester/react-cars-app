@@ -39,7 +39,7 @@ const CarThumbnailContainer = styled.div`
     items-center
   `}
   & img {
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 `
