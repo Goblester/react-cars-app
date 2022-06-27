@@ -7,6 +7,7 @@ import {Marginer} from "../../components/marginer";
 import BookingSteps from "./bookingSteps";
 import AboutUs from "./aboutUs";
 import TopCars from "./topCars";
+import Footer from "../../components/footer";
 
 
 const PageContainer = tw.div`
@@ -33,6 +34,8 @@ const HomePage: React.FC = () => {
             <AboutUs/>
             <Marginer margin={'6em'} direction={'vertical'}/>
             <TopCars/>
+            <Marginer margin={'10em'} direction={'vertical'}/>
+            <Footer/>
         </PageContainer>
     )
 }
