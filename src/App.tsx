@@ -14,7 +14,7 @@ const AppContainer = tw.div`
 
 function App() {
     return (
-        <AppContainer>
+        <AppContainer className={'rounded-'}>
             <HomePage/>
         </AppContainer>
     );
