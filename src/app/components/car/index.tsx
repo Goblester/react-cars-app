@@ -1,5 +1,4 @@
 import React from "react";
-import {ICar} from "../../../typings/car";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -7,6 +6,7 @@ import {faTachometerAlt} from "@fortawesome/free-solid-svg-icons/faTachometerAlt
 import {faEllipsisH} from "@fortawesome/free-solid-svg-icons/faEllipsisH";
 import {faFillDrip} from "@fortawesome/free-solid-svg-icons/faFillDrip";
 import Button from "../button/Button";
+import {GetAllCars_cars} from "../../services/carService/__generated__/GetAllCars";
 
 const CarContainer = styled.div`
   box-shadow: 0 1.3px 17px -2px rgba(0, 0, 0, 0.4);
@@ -122,7 +122,7 @@ const RentButton = styled(Button)`
   `}
 `
 
-interface CarProps extends ICar {
+interface CarProps extends GetAllCars_cars {
 
 }
 
@@ -130,7 +130,7 @@ interface CarProps extends ICar {
 const Car: React.FC<CarProps> = (props) => {
     const {
         name,
-        thumbnailSrc,
+        thumbnailUrl,
         gas,
         mileage,
         gearType,
@@ -141,7 +141,7 @@ const Car: React.FC<CarProps> = (props) => {
     return (
         <CarContainer>
             <CarThumbnailContainer>
-                <img src={thumbnailSrc} alt={''}/>
+                <img src={thumbnailUrl} alt={''}/>
             </CarThumbnailContainer>
             <CarName>{name}</CarName>
             <PricesLine>

@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import {ICar} from "../../../typings/car";
-import CarImage from "../../../assets/images/mclaren-orange.png";
-import Car2Image from "../../../assets/images/jeep.png";
 import Car from "../../components/car";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination} from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import {useMediaQuery} from "react-responsive";
 import {SCREENS} from "../../constants/screens";
+import {useQuery} from "@apollo/client";
+import {GET_ALL_CARS} from "../../services/carService/queries";
+import {GetAllCars} from "../../services/carService/__generated__/GetAllCars";
 
 const TopCarsContainer = styled.section`
   ${tw`
@@ -44,51 +44,43 @@ const CarsContainer = styled.div`
   `}
 `
 
-const testCar: ICar = {
-    name: 'Audi S3 Car',
-    mileage: '10k',
-    thumbnailSrc: CarImage,
-    dailyPrice: 70,
-    monthlyPrice: 1600,
-    gearType: 'Auto',
-    gas: 'Petrol'
-}
-
-
-const testCar2: ICar = {
-    name: 'HONDA CITY 5 Seater Car',
-    mileage: '20k',
-    thumbnailSrc: Car2Image,
-    dailyPrice: 50,
-    monthlyPrice: 1500,
-    gearType: 'Auto',
-    gas: 'Petrol'
-}
-
 const TopCars: React.FC = () => {
 
     const isMobile = useMediaQuery({maxWidth: SCREENS.md})
     const isLarge = useMediaQuery({maxWidth: SCREENS.xl})
+    const {data, loading} = useQuery<GetAllCars>(GET_ALL_CARS)
 
-    const cars = [
-        <Car {...testCar}/>,
-        <Car {...testCar2}/>,
-        <Car {...testCar}/>,
-        <Car {...testCar2}/>,
-        <Car {...testCar}/>
-    ]
+
+    if (loading) {
+        return (
+            <TopCarsContainer>
+                <Title>Explore Our Top Deals</Title>
+                <div>cars loading...</div>
+            </TopCarsContainer>
+        )
+    }
+
 
     const numberOfSlides = isMobile ? 1 : isLarge ? 2 : 3
 
+
     return <TopCarsContainer>
         <Title>Explore Our Top Deals</Title>
-        <CarsContainer>
-            <Swiper slidesPerView={numberOfSlides} pagination={{clickable: true, horizontalClass: 'static'}} modules={[Pagination]}>
-                {cars.map((car, index) =>
-                    <SwiperSlide className={'flex justify-center'} key={index}>{car}</SwiperSlide> )}
-            </Swiper>
+        {data ?
+            <CarsContainer>
+                <Swiper slidesPerView={data.cars.length < numberOfSlides ? data.cars.length : numberOfSlides} pagination={{clickable: true, horizontalClass: 'static'}}
+                        modules={[Pagination]}>
+                    {data.cars.map((carData) =>
+                        <SwiperSlide key={carData.id} className={'flex justify-center pb-4'}>
+                            <Car {...carData}/>
+                        </SwiperSlide>)}
+                </Swiper>
 
-        </CarsContainer>
+            </CarsContainer>
+            :
+            <div>no cars, sorry.</div>
+
+        }
     </TopCarsContainer>
 }
 
