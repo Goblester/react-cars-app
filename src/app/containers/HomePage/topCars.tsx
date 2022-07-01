@@ -12,6 +12,7 @@ import {SCREENS} from "../../constants/screens";
 import {useQuery} from "@apollo/client";
 import {GET_ALL_CARS} from "../../services/carService/queries";
 import {GetAllCars} from "../../services/carService/__generated__/GetAllCars";
+import Loader from "../../components/loader";
 
 const TopCarsContainer = styled.section`
   ${tw`
@@ -44,6 +45,15 @@ const CarsContainer = styled.div`
   `}
 `
 
+const LoaderContainer = styled.div`
+  ${tw`
+    flex
+    items-center
+    mt-10
+    mx-auto
+  `}
+`
+
 const TopCars: React.FC = () => {
 
     const isMobile = useMediaQuery({maxWidth: SCREENS.md})
@@ -51,11 +61,14 @@ const TopCars: React.FC = () => {
     const {data, loading} = useQuery<GetAllCars>(GET_ALL_CARS)
 
 
+
     if (loading) {
         return (
             <TopCarsContainer>
                 <Title>Explore Our Top Deals</Title>
-                <div>cars loading...</div>
+                <LoaderContainer>
+                    <Loader/>
+                </LoaderContainer>
             </TopCarsContainer>
         )
     }
