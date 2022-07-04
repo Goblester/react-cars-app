@@ -10,6 +10,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@reduxjs/toolkit": "^1.8.2",
+    "express": "^4.18.1",
     "graphql": "^16.5.0",
     "react": "^18.2.0",
     "react-burger-menu": "^3.0.8",
@@ -30,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "schema:download": "apollo client:download-schema --endpoint=http://localhost:9000/graphql ./src/app/graphql-schema.json",
-    "schema:generate-watch": "apollo codegen:generate --localSchemaFile=./src/app/graphql-schema.json --target=typescript --tagName=gql --watch"
+    "schema:generate-watch": "apollo codegen:generate --localSchemaFile=./src/app/graphql-schema.json --target=typescript --tagName=gql --watch",
+    "start:prod" : "node ./server.js"
   },
   "eslintConfig": {
     "extends": [
